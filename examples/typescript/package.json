@@ -1,0 +1,12 @@
+{
+  "name": "rushdb-schema-discovery-poc",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "seed-and-inspect": "node src/seed-and-inspect.mjs"
+  },
+  "dependencies": {
+    "@rushdb/javascript-sdk": "^3.0.0"
+  }
+}
