@@ -1,7 +1,5 @@
 # Production evaluation checklist
 
-This is a review checklist, not a claim that every capability has been independently tested.
-
 ## Data and correctness
 
 - [ ] Define the system of record and the consistency contract for any RushDB projection.
