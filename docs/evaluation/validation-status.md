@@ -4,19 +4,19 @@
 **Target:** RushDB 3.x standalone engine, JavaScript SDK, and MCP direct mode  
 **Outcome:** documentation/source-validated; live runtime validation remains outstanding.
 
-## Source and documentation checks
+## Source and documentation review
 
-The research package was checked against the official documentation and public project sources for the distinctions between RushDB 2.x and 3.x, the LMPG and schema catalog concepts, TypeScript SDK calls, nested JSON ingestion, MCP direct mode, self-hosted versus Cloud capabilities, hybrid retrieval, WAL/MVCC, capacity-planning figures, and release maturity caveats.
+The research was checked against the official documentation and public project sources for the distinctions between RushDB 2.x and 3.x, the LMPG and schema catalog, TypeScript SDK calls, nested JSON ingestion, MCP direct mode, self-hosted versus Cloud capabilities, hybrid retrieval, WAL/MVCC, capacity-planning figures, and release maturity.
 
-## Local checks performed
+## Static checks
 
 - `node --check examples/typescript/src/seed-and-inspect.mjs` — passed.
 - `package.json` JSON parsing — passed.
-- Repository tree and relative Markdown links — reviewed during packaging.
+- Repository tree and relative Markdown links — reviewed.
 
-## Not performed
+## Runtime validation
 
-A live RushDB process was not started in the preparation environment: outbound DNS/network access was unavailable and Docker was not installed. The RushDB binary and npm dependency could not be installed. Therefore no ingestion, catalog query, relationship query, vector search, failure-recovery test, or benchmark is claimed as executed.
+Live runtime validation has not yet been completed. No ingestion, catalog query, relationship query, vector search, failure-recovery test, or benchmark is claimed as executed.
 
 ## Required before claiming hands-on validation
 
@@ -34,4 +34,4 @@ A live RushDB process was not started in the preparation environment: outbound D
 - **Vendor benchmark:** performance result published by RushDB; not independently reproduced.
 - **Independent runtime result:** only use after executing and preserving a reproducible test.
 
-Do not present vendor benchmarks as independent results or source-checked code as runtime-validated code.
+Vendor benchmarks should not be presented as independent results, and source-checked code should not be described as runtime-validated code.
