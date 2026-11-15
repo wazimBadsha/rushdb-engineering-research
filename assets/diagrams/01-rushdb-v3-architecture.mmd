@@ -1,0 +1,14 @@
+flowchart TB
+  subgraph ENGINE["RushDB 3 — standalone Rust engine"]
+    INGEST["JSON / CSV ingestion"] --> LMPG["LMPG records + property occurrences + relationships"]
+    LMPG --> CATALOG["Live schema catalog"]
+    LMPG --> STORE["WAL + redb materialization + MVCC"]
+    LMPG --> SEARCH["BM25 + vector indexes"]
+    CATALOG --> PLANNER["Query planner"]
+    SEARCH --> PLANNER
+    STORE --> PLANNER
+    PLANNER --> QUERY["Native query / SQL / supported language interfaces"]
+  end
+  AGENT["AI agent / application"] --> DISCOVERY["MCP / SDK schema discovery"]
+  DISCOVERY --> CATALOG
+  DISCOVERY --> QUERY
