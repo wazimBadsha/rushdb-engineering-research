@@ -1,0 +1,12 @@
+flowchart TD
+  A[User request] --> B[Classify task]
+  B --> C[getSchemaMarkdown]
+  C --> D[Inspect labels, properties, types and relationships]
+  D --> E{Advanced query?}
+  E -- Yes --> F[getSearchQuerySpec]
+  E -- No --> G[Build query from discovered names]
+  F --> G
+  G --> H[findRecords / search]
+  H --> I[Inspect evidence and validate result]
+  I --> J[Explain answer with uncertainty]
+  K[Business semantics and authorization] -. remain application responsibilities .-> J
