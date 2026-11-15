@@ -1,0 +1,8 @@
+flowchart LR
+  MUT["Mutation request"] --> ADMIT["Commit admission\nSingle logical writer"]
+  ADMIT --> WAL["Append WAL\nfsync establishes durability"]
+  WAL --> REDB["Apply ordered operations\nredb materialization"]
+  REDB --> CHECK["Checkpoint / recovery boundary"]
+  REDB --> READ["MVCC snapshot read"]
+  READ --> PLAN["Planner + catalog + indexes"]
+  PLAN --> RESULT["Consistent query result"]
