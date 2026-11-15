@@ -4,7 +4,8 @@ Independent, source-backed engineering notes and reproducible evaluation materia
 
 This repository examines RushDB as an agent-facing, graph-native data system: its Labeled Meta-Property Graph (LMPG), live schema catalog, query and retrieval interfaces, storage internals, MCP integration, operational model, and production-readiness trade-offs.
 
-> **Research status:** documentation/source-validated snapshot dated 16 November 2026. The included TypeScript proof of concept is source-checked but has not yet been executed against a live RushDB engine in the preparation environment. See [validation status](docs/evaluation/validation-status.md).
+> **Research status:** documentation/source-validated snapshot dated 16 November 2026. The included TypeScript proof of concept is source-checked
+ See [validation status](docs/evaluation/validation-status.md).
 
 ## What is in this repository?
 
