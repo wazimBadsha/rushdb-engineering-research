@@ -1,0 +1,13 @@
+flowchart LR
+  SYS["PostgreSQL / MongoDB\nSystem of record"] --> EVT["Outbox / CDC / event projection"]
+  EVT --> RDB["RushDB context graph"]
+  subgraph RDB["RushDB context graph"]
+    REC["Graph records + relationships"]
+    CAT["Live schema catalog"]
+    BM["BM25 index"]
+    VEC["Vector index (BYO vectors self-hosted)"]
+  end
+  RDB --> MCP["MCP / SDK agent runtime"]
+  MCP --> AG["Agent reasoning + retrieval"]
+  AG --> POLICY["Authorized application service"]
+  POLICY --> SYS
