@@ -25,6 +25,8 @@ RushDB 3 provides database-level authentication and authorization controls:
 
 The boot token is required to install or read the tenant policy. A capability token cannot change the policy that governs it.
 
+The RushDB 3.x documented contract accepts capability tokens on the HTTP protocol endpoint. The SDK's direct mode (used by the local stdio MCP server) sends requests to `/protocol/v1/execute` over HTTP and passes the tenant through `RUSHDB_ENGINE_SCOPE`. Do not assume the same capability token is accepted by pgwire, gRPC, or Bolt; check the exact engine release's transport support before using those interfaces.
+
 ## Schema discovery is policy-aware
 
 When an enforced policy applies, supported catalog operations expose only the permitted labels, properties, values, and relationship shapes. The catalog is not inherently a complete view of the tenant when policy restrictions are active.
