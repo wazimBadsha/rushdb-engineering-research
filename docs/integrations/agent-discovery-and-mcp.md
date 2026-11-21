@@ -10,9 +10,9 @@ sequenceDiagram
   participant R as RushDB
   U->>A: Ask a data question
   A->>M: getSchemaMarkdown
-  M->>R: Read current catalog
-  R-->>M: Labels, properties, types, relationships
-  M-->>A: Discoverable schema
+  M->>R: Read tenant and policy-scoped catalog
+  R-->>M: Visible labels, properties, types, relationships
+  M-->>A: Policy-filtered discoverable schema
   opt Complex query
     A->>M: getSearchQuerySpec
     M->>R: Query specification
@@ -20,8 +20,8 @@ sequenceDiagram
     M-->>A: Query guidance
   end
   A->>M: findRecords / relevant query tool
-  M->>R: Execute query
-  R-->>M: Results
+  M->>R: Execute query under same tenant capability
+  R-->>M: Authorized results
   M-->>A: Results and metadata
   A-->>U: Explain answer and limitations
 ```
@@ -29,10 +29,11 @@ sequenceDiagram
 ## Discovery-first sequence
 
 1. Call `getSchemaMarkdown` at session start or when schema freshness is uncertain.
-2. Identify the requested labels, properties, and relationship path from the returned catalog.
-3. For complex traversal, aggregation, date, metric, or vector queries, consult `getSearchQuerySpec`.
-4. Construct a query using exact discovered identifiers.
-5. Execute and validate the result; refresh discovery after structural errors or known ingestion changes.
+2. Treat the result as policy-filtered: it may not show every label or property stored in the tenant.
+3. Identify requested labels, properties, and relationship paths from the returned catalog.
+4. For complex traversal, aggregation, date, metric, or vector queries, consult `getSearchQuerySpec`.
+5. Construct a query using exact discovered identifiers and execute it with the same tenant-scoped capability.
+6. Validate the result; refresh discovery after structural errors or known ingestion changes.
 
 A short-lived schema cache can reduce repeated tool calls. Invalidate it on ingestion events or schema-related query errors. Measure the trade-off between discovery latency, prompt tokens, stale-schema errors, and query retries.
 
