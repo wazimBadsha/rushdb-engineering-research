@@ -1,0 +1,26 @@
+name: Research repository checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate TypeScript POC syntax and package manifest
+        working-directory: examples/typescript
+        run: |
+          node --check src/seed-and-inspect.mjs
+          node -e "JSON.parse(require('node:fs').readFileSync('package.json', 'utf8'))"
