@@ -1,3 +1,4 @@
+import assert from 'node:assert/strict';
 import RushDB from '@rushdb/javascript-sdk';
 
 const token = process.env.RUSHDB_TOKEN;
@@ -65,8 +66,12 @@ async function main() {
 
   // Inspect the live catalog instead of hard-coding the entire schema in a prompt.
   const schema = await db.ai.getSchemaMarkdown();
+  assert.equal(typeof schema, 'string', 'Expected getSchemaMarkdown() to return Markdown');
+  for (const expected of ['CUSTOMER', 'ORDER', 'PRODUCT', 'status', 'orderStatus']) {
+    assert.ok(schema.includes(expected), `Live schema is missing expected label/property "${expected}".`);
+  }
   console.log('\n=== LIVE SCHEMA ===\n');
-  console.dir(schema, { depth: null });
+  console.log(schema);
 
   // This uses the documented nested where-query pattern: a CUSTOMER must
   // match its own city and have a related ORDER with status=completed.
@@ -79,11 +84,24 @@ async function main() {
     limit: 20,
   });
 
+  assert.ok(Array.isArray(result?.data), 'Expected records.find() to return a DBRecordsArrayInstance');
+  const matchedCustomerIds = result.data
+    .map((record) => record?.data?.customerId)
+    .filter((customerId) => typeof customerId === 'string')
+    .sort();
+
+  assert.deepEqual(
+    matchedCustomerIds,
+    ['C-1001'],
+    'Relationship query should return only the customer with a completed related order.'
+  );
+
   console.log('\n=== QUERY RESULT ===\n');
   console.dir(result, { depth: null });
+  console.log('\nVALIDATION PASSED: schema discovery and relationship query assertions matched.\n');
 }
 
 main().catch((error) => {
-  console.error('RushDB validation example failed:', error);
+  console.error('RushDB schema-discovery integration failed:', error);
   process.exitCode = 1;
 });
