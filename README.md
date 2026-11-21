@@ -11,10 +11,14 @@ flowchart LR
   APP["Applications and data sources"] --> INGEST["Ingestion APIs"]
   INGEST --> GRAPH["LMPG records, properties and relationships"]
   GRAPH --> CATALOG["Live schema catalog"]
-  GRAPH --> STORAGE["WAL, materialized storage and MVCC"]
+  GRAPH --> WAL["Durable write-ahead log"]
+  WAL --> PUBLISH["Published commit watermark"]
+  PUBLISH --> READ["MVCC reads"]
+  PUBLISH --> REDB["Background redb materialization"]
+  REDB --> CHECKPOINT["Checkpoint / WAL reclamation"]
   GRAPH --> INDEX["Keyword and vector indexes"]
   CATALOG --> QUERY["Query planning and execution"]
-  STORAGE --> QUERY
+  READ --> QUERY
   INDEX --> QUERY
   QUERY --> INTERFACE["SDK, query interfaces and MCP"]
   INTERFACE --> AGENT["Agents and applications"]
@@ -76,11 +80,15 @@ npm run seed-and-inspect
 
 Use a fresh data directory for each repeatable run. The example is a one-time seed and does not implement cleanup or upsert behaviour.
 
-## Evaluation status
+## Scope and reproducibility
 
-The research is based on the official documentation and public project sources available for the 16 November 2026 snapshot. Static checks for the TypeScript example and package manifest passed. **Live runtime validation has not yet been completed**, so no successful ingestion, query, recovery, or performance test is claimed.
+This repository is an independent engineering study with a focused TypeScript proof of concept. The example demonstrates nested ingestion, live schema discovery, and a relationship query. The architecture documents analyze upstream RushDB capabilities; they do not reimplement the engine, MCP server, vector index, or hybrid retrieval pipeline.
 
-See [Validation status](docs/evaluation/validation-status.md) for evidence categories and the steps required for a reproducible runtime evaluation. Vendor-published benchmark figures are explicitly labelled and are not presented as independently reproduced results.
+**Research snapshot (21 November 2026):** RushDB engine 3.0.13, JavaScript SDK 3.4.1, MCP server reference 3.5.0, Node.js 18 or newer.
+
+The TypeScript example includes assertions for the expected catalog entries and relationship-query result. Run it against a clean local engine data directory using the steps in [TypeScript proof of concept](examples/typescript/README.md). The evidence document records what is source-reviewed, statically checked, runtime-executed, or vendor-reported. Vendor benchmarks are not presented as independent results.
+
+See [Validation and reproducibility](docs/evaluation/validation-status.md) for evidence boundaries and version-sensitive changes.
 
 ## Primary references
 
