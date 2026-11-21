@@ -30,7 +30,13 @@ flowchart TB
 
 The database maintains an inspectable description of observed labels, properties, types, value information, and relationship shapes as data is committed. An agent can inspect that live description before constructing a query. This reduces dependence on stale schema descriptions embedded in prompts.
 
-It does **not** automatically infer business definitions, resolve semantic renames, enforce application authorization policy, or make every observed property an indexed property.
+The catalog does not infer business definitions, resolve semantic renames, choose canonical fields, or migrate values without domain rules. Frequently filtered properties may also need explicit indexes.
+
+## Authorization boundary
+
+RushDB enforces configured database-level controls: credential permissions, tenant isolation, and tenant data-access policies that can restrict labels, traversable relationship types, visible properties, result counts, and catalog disclosures. These controls do not replace application identity management. The application remains responsible for authenticating end users, mapping users and agents to tenant-scoped capabilities, deciding which capability each agent receives, and enforcing business rules such as record ownership and domain-specific authorization. A model prompt is not an authorization boundary.
+
+See [Security and tenancy](../operations/security-and-tenancy.md) for the distinction between engine-enforced controls and application responsibilities.
 
 ## Deployment distinction
 
