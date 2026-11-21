@@ -28,6 +28,10 @@ The catalog can describe observed:
 
 A catalog-only description can provide structural metadata without scanning all records. A fuller description can include bounded samples and value information.
 
+## Policy-filtered discovery
+
+The catalog is an observed structural view, not an unconditional disclosure of every tenant field. When an enforced data-access policy is active, supported catalog operations are narrowed to the allowed labels, visible properties, and permitted relationship shapes. Configured minimum-count thresholds can also suppress low-count catalog groups and value details. Agents should discover the schema using the same tenant-scoped capability and policy context they will use for subsequent reads.
+
 ## Important limits
 
 The catalog reports observed structure; it does not infer intent. If one producer writes `status` and another writes `orderStatus`, it can expose both. It cannot safely conclude that one is a rename, choose a canonical field, or migrate the data without domain rules.
@@ -38,4 +42,5 @@ Schema flexibility also does not remove index design. Frequently filtered proper
 
 - [LMPG layout](https://docs.rushdb.com/engine/architecture/lmpg-layout/)
 - [Schema catalog](https://docs.rushdb.com/engine/data-model/schema-catalog/)
+- [Security and data-access policies](https://docs.rushdb.com/engine/operations/security/)
 - [Architecture overview](https://docs.rushdb.com/engine/architecture/overview/)
