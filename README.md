@@ -75,7 +75,8 @@ cd examples/typescript
 npm install
 export RUSHDB_TOKEN="<local-engine-token>"
 export RUSHDB_ENGINE_URL="http://127.0.0.1:3000"
-npm run seed-and-inspect
+npm run check
+npm run test:integration
 ```
 
 Use a fresh data directory for each repeatable run. The example is a one-time seed and does not implement cleanup or upsert behaviour.
