@@ -47,18 +47,20 @@ Example client configuration (replace the token with a secret injected locally):
   "mcpServers": {
     "rushdb": {
       "command": "npx",
-      "args": ["-y", "@rushdb/mcp-server"],
+      "args": ["-y", "@rushdb/mcp-server@3.5.0"],
       "env": {
         "RUSHDB_MODE": "direct",
         "RUSHDB_ENGINE_URL": "http://127.0.0.1:3000",
-        "RUSHDB_ENGINE_TOKEN": "${RUSHDB_ENGINE_TOKEN}"
+        "RUSHDB_ENGINE_TOKEN": "REPLACE_WITH_TENANT_SCOPED_CAPABILITY"
       }
     }
   }
 }
 ```
 
-Check the current MCP server documentation for the exact environment-variable and client-configuration contract before deployment. Never commit real tokens or expose a full-access boot token to an agent that only needs read access.
+For multitenant deployments, configure RUSHDB_ENGINE_SCOPE as required by the selected MCP server version and issue a capability bound to that tenant. Use the narrowest permission set required by the tools the agent will call. Never expose the boot token to an agent that only needs read access.
+
+Check the current MCP server documentation for the exact environment-variable and client-configuration contract before deployment. The MCP server version in this research snapshot is 3.5.0; the TypeScript POC does not start or runtime-test an MCP server process.
 
 ## References
 
