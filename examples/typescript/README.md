@@ -10,9 +10,10 @@ This example exercises a discovery-first workflow against a local RushDB 3 engin
 
 ## Prerequisites
 
-- A locally running RushDB 3 engine.
-- Node.js supported by the selected SDK release.
-- A local engine token.
+- RushDB engine 3.0.13 for this research snapshot.
+- JavaScript SDK 3.4.1 (pinned in package.json).
+- Node.js >=18.
+- A local engine token with the required read/write access for the seed and query.
 
 ## Start the engine (macOS example)
 
@@ -29,7 +30,8 @@ cd examples/typescript
 npm install
 export RUSHDB_TOKEN="<local-engine-token>"
 export RUSHDB_ENGINE_URL="http://127.0.0.1:3000"
-npm run seed-and-inspect
+npm run check
+npm run test:integration
 ```
 
 Use a fresh data directory for each repeatable run or implement explicit cleanup/upsert logic. This seed is intentionally one-shot and inserts additional records if run repeatedly.
@@ -41,7 +43,11 @@ Use a fresh data directory for each repeatable run or implement explicit cleanup
 - Both `status` and `orderStatus` are visible as distinct observed properties; the catalog does not infer that one is a semantic rename.
 - The nested relationship filter returns the customer associated with a completed order.
 
-These are expected test assertions. Live execution evidence has not yet been collected; see [validation status](../../docs/evaluation/validation-status.md).
+The integration script enforces these assertions and exits non-zero when an expectation fails. Use a fresh data directory for each repeatable run because the seed is one-shot.
+
+## Scope
+
+This POC exercises schema discovery and a nested relationship query. It does not implement RushDB's storage engine, MCP server, embedding generation, vector index, or hybrid retrieval pipeline. Those product capabilities are analyzed in the research documents, not represented as code implemented by this repository.
 
 ## MCP
 
