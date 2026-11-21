@@ -3,10 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
-    "seed-and-inspect": "node src/seed-and-inspect.mjs"
+    "check": "node --check src/seed-and-inspect.mjs",
+    "seed-and-inspect": "node src/seed-and-inspect.mjs",
+    "test:integration": "node src/seed-and-inspect.mjs"
   },
   "dependencies": {
-    "@rushdb/javascript-sdk": "^3.0.0"
+    "@rushdb/javascript-sdk": "3.4.1"
   }
 }
