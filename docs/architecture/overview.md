@@ -11,10 +11,13 @@ RushDB 2.x and 3.x are materially different generations: 2.x was built over Neo4
 ```mermaid
 flowchart TB
   APP[Applications and data producers] --> ING[Ingestion and mutation APIs]
-  ING --> TX[Commit and WAL path]
-  TX --> STORE[Typed property / relationship storage]
-  TX --> CAT[Live schema catalog and statistics]
-  STORE --> QP[Query planner and execution]
+  ING --> WAL[Plan mutations and append WAL]
+  WAL --> PUB[Durable published commit]
+  PUB --> READ[MVCC-visible committed state]
+  PUB --> REDB[Background redb materialization]
+  REDB --> CHECK[Checkpoint and WAL reclamation]
+  PUB --> CAT[Live schema catalog and statistics]
+  READ --> QP[Query planner and execution]
   CAT --> QP
   QP --> GRAPH[Graph and structured filters]
   QP --> TEXT[Keyword / BM25 retrieval]
