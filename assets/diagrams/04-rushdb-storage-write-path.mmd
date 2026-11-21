@@ -1,8 +1,9 @@
 flowchart LR
   MUT["Mutation request"] --> ADMIT["Commit admission\nSingle logical writer"]
   ADMIT --> WAL["Append WAL\nfsync establishes durability"]
-  WAL --> REDB["Apply ordered operations\nredb materialization"]
-  REDB --> CHECK["Checkpoint / recovery boundary"]
-  REDB --> READ["MVCC snapshot read"]
+  WAL --> PUB["Publish durable commit\nAdvance visible watermark"]
+  PUB --> READ["MVCC snapshot read\nIncludes committed pending writes"]
+  PUB --> REDB["Background redb materialization"]
+  REDB --> CHECK["Checkpoint / WAL reclamation"]
   READ --> PLAN["Planner + catalog + indexes"]
   PLAN --> RESULT["Consistent query result"]
