@@ -59,7 +59,7 @@ Example client configuration (replace the token with a secret injected locally):
 }
 ```
 
-For multitenant deployments, configure RUSHDB_ENGINE_SCOPE as required by the selected MCP server version and issue a capability bound to that tenant. Use the narrowest permission set required by the tools the agent will call. Never expose the boot token to an agent that only needs read access.
+For multitenant deployments, start the engine with `--multitenant` and a `RUSHDB_CAPABILITY_SECRET`, configure `RUSHDB_ENGINE_SCOPE` to the intended tenant, and provide a capability token signed by that secret and bound to the same tenant. The capability token must include the `read` permission for discovery and queries; add `write` only when the agent genuinely needs writes. Use the narrowest permission set required by the tools the agent will call. Never expose the boot token to an agent that only needs read access.
 
 Check the current MCP server documentation for the exact environment-variable and client-configuration contract before deployment. The MCP server version in this research snapshot is 3.5.0; the TypeScript POC does not start or runtime-test an MCP server process.
 
