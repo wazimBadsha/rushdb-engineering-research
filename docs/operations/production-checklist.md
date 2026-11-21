@@ -8,19 +8,21 @@
 - [ ] Define business semantics separately from structural schema metadata.
 - [ ] Establish query correctness fixtures and regression tests.
 
-## Security
+## Security and authorization
 
-- [ ] Use least-privilege tenant-scoped credentials.
-- [ ] Separate read, write, and destructive permissions.
-- [ ] Test tenant isolation and missing-scope failure behaviour.
-- [ ] Keep secrets out of prompts, logs, source control, and screenshots.
-- [ ] Review whether schema samples expose sensitive values.
+- [ ] Use least-privilege capability tokens with the required read and/or write scopes.
+- [ ] Bind capabilities to the intended tenant in multitenant mode.
+- [ ] Keep the unrestricted boot token and capability-signing secret out of prompts, logs, source control, and screenshots.
+- [ ] Configure and test data-access policies for labels, properties, relationship types, result limits, and catalog visibility.
+- [ ] Confirm that schema-discovery calls use the same tenant and policy context as subsequent record queries.
+- [ ] Test tenant isolation, missing-scope failure, hidden-property access, denied relationship traversal, token expiry, and unsupported-adapter fail-closed behaviour.
+- [ ] Keep end-user identity, ownership, business roles, and domain authorization in the application service.
 
 ## Reliability and operations
 
 - [ ] Exercise backup and restore, including recovery-time measurement.
-- [ ] Test process termination during ingestion and checkpoint activity.
-- [ ] Measure WAL growth, checkpoint behaviour, disk pressure, and recovery time.
+- [ ] Test process termination during WAL append, publication, background materialization, and checkpoint activity.
+- [ ] Measure WAL growth, unmaterialized-write backlog, checkpoint behaviour, disk pressure, and recovery time.
 - [ ] Test replica lag and promotion procedures if replication is used.
 - [ ] Establish health checks, metrics, logs, alert thresholds, and capacity limits.
 - [ ] Pin engine, SDK, and MCP server versions.
